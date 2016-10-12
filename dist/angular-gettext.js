@@ -262,6 +262,13 @@ angular.module('gettext').factory('gettextCatalog', ["gettextPlurals", "gettextF
             if (!language) {
                 return null;
             }
+
+            // If we replaced the key in setStrings() then do it again
+            // for retrieval (#301).
+            if (isHTMLModified) {
+                string = angular.element('<span>' + string + '</span>').html();
+            }
+
             var stringTable = this.strings[language] || {};
             var contexts = stringTable[string] || {};
             var plurals = contexts[context || noContext] || [];
